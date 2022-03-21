@@ -1,0 +1,7 @@
+# Project exclude paths
+/dw-chart/target/
+/longlong-canal/target/
+/longlong-common/target/
+/longlong-datasource/target/
+/longlong-offlinetime/target/
+/longlong-realtime/target/

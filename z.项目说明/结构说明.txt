@@ -1,0 +1,22 @@
+项目结构说明：
+	longlong-common：作为公共模块，导入该模块可以使用该模块的所有东西
+	longlong-datasource：模拟数据源，用来模拟产生的各种数据
+	longlong-logsever：日志服务器，接受数据源产生的数据，发送到kafka，并存到文件(日志落盘)，打包发布在linux上，用ngnix负载均衡
+	longlong-realtime：从kafka消费数据，用sparkstreaming实时处理，用redis去重，将处理结果存到hbase
+	longlong-canal：用canal实时监控mysql变化，并将产生变化的数据发送到kafka
+	longlong-display：从hbase中取出数据，通过写controller将业务处理过的数据以json格式发送指8070端口
+	dw-chart：从8070端口将数据去除通过ajax将数据传给echars展示
+启动顺序：
+start zookeeper hdfs hbase kafka
+/ser/local/websever/ngnix/sbin/nginx   (hd002)
+/home/longlong/jars/_____.jar   (hd001,hd002,hd003)
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server hd002:9092 --topic startup --from-beginning   (hd003,hd004) 三个主题都打开
+redis-start   (hd004)
+canal-start   （hd003
+运行longlong-display
+运行dw-chart
+打开数据源longlong-datasource    向mysql插入数据   (hd003)
+登录浏览器访问localhost:8070/date?date=2020-07-05               界面 localhost:8060/index
+
+
+
